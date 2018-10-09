@@ -1,23 +1,17 @@
-package com.bee;
+package com.bee.sessionlayer;
 
-public class SessionLayerMsg {
+import com.bee.ApplicationLayerMsg;
 
-    private int headerLen;
-    private int invokeWay;
+import java.io.Serializable;
+
+public class SessionLayerMsg implements Serializable {
+
+    private long requestId;
     //心跳、请求数据，响应数据
     private int msgType;
-    private long requestId;
+    private int invokeWay;
 
-    private int bodyLen;
     private ApplicationLayerMsg msg;
-
-    public int getHeaderLen() {
-        return headerLen;
-    }
-
-    public void setHeaderLen(int headerLen) {
-        this.headerLen = headerLen;
-    }
 
     public int getInvokeWay() {
         return invokeWay;
@@ -33,14 +27,6 @@ public class SessionLayerMsg {
 
     public void setMsgType(int msgType) {
         this.msgType = msgType;
-    }
-
-    public int getBodyLen() {
-        return bodyLen;
-    }
-
-    public void setBodyLen(int bodyLen) {
-        this.bodyLen = bodyLen;
     }
 
     public ApplicationLayerMsg getMsg() {

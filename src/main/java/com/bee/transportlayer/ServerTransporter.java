@@ -1,5 +1,7 @@
-package com.bee;
+package com.bee.transportlayer;
 
+import com.bee.sessionlayer.SessionLayerCallbacker;
+import com.bee.sessionlayer.SessionLayerMsg;
 import com.bee.codec.BeeDecoder;
 import com.bee.codec.BeeEncoder;
 import com.bee.util.NamedThreadFactory;
@@ -8,6 +10,7 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.channel.socket.nio.NioSocketChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +28,7 @@ public class ServerTransporter implements Transporter {
     //心跳检测时用到
     private List<Channel> currentChannels;
 
-    public ServerTransporter(int port) {
+    public ServerTransporter(int port, SessionLayerCallbacker sessionLayerCallbacker) {
         this.port = port;
         serverBootstrap = new ServerBootstrap();
         serverBootstrap.group(boss,worker)
@@ -38,7 +41,7 @@ public class ServerTransporter implements Transporter {
                         ChannelPipeline pipeline = socketChannel.pipeline();
                         pipeline.addLast(new BeeEncoder())
                                 .addLast(new BeeDecoder())
-                                .addLast(new ServerTransportHandler());
+                                .addLast(new ServerTransportHandler(sessionLayerCallbacker));
                     }
                 });
     }
@@ -58,8 +61,8 @@ public class ServerTransporter implements Transporter {
     }
 
     @Override
-    public void write(SessionLayerMsg msg) {
-
+    public void send(SessionLayerMsg msg, Channel channel) {
+        channel.writeAndFlush(msg);
     }
 
 }

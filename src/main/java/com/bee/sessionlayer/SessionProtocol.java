@@ -1,7 +1,7 @@
 package com.bee.sessionlayer;
 
 import com.bee.ApplicationLayerMsg;
-import com.bee.InvokeContext;
+import com.bee.transportlayer.InvokeContext;
 
 public interface SessionProtocol {
 
@@ -9,12 +9,13 @@ public interface SessionProtocol {
 
     void startHeartBeat();
 
-    public void oneway(ApplicationLayerMsg applicationRequest, InvokeContext invokeContext);
+    void oneway(ApplicationLayerMsg applicationRequest, InvokeContext invokeContext);
 
-    public Object sendSyn(ApplicationLayerMsg applicationRequest, InvokeContext invokeContext);
+    Object sendSyn(ApplicationLayerMsg applicationRequest, InvokeContext invokeContext);
 
-    public Object sendWithFuture(ApplicationLayerMsg applicationRequest, InvokeContext invokeContext);
+    Object sendWithFuture(ApplicationLayerMsg applicationRequest, InvokeContext invokeContext);
 
-    public Object sendWithCallback(ApplicationLayerMsg applicationRequest, InvokeContext invokeContext) ;
+    Object sendWithCallback(ApplicationLayerMsg applicationRequest, InvokeContext invokeContext) ;
 
+    void acceptInvoke(SessionLayerMsg sessionLayerMsg, InvokeContext invokeContext);
 }

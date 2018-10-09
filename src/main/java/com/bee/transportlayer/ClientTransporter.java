@@ -1,5 +1,7 @@
-package com.bee;
+package com.bee.transportlayer;
 
+import com.bee.sessionlayer.SessionLayerCallbacker;
+import com.bee.sessionlayer.SessionLayerMsg;
 import com.bee.codec.BeeDecoder;
 import com.bee.codec.BeeEncoder;
 import com.bee.util.NamedThreadFactory;
@@ -22,7 +24,7 @@ public class ClientTransporter implements Transporter {
     private ChannelFuture channelFuture;
     private Channel channel;
 
-    public ClientTransporter(String ip,int port) {
+    public ClientTransporter(String ip, int port, SessionLayerCallbacker sessionLayerCallbacker) {
         this.ip = ip;
         this.port = port;
 
@@ -36,7 +38,7 @@ public class ClientTransporter implements Transporter {
                         ChannelPipeline pipeline = socketChannel.pipeline();
                         pipeline.addLast(new BeeDecoder())
                                 .addLast(new BeeEncoder())
-                                .addLast(new ClientTransportHandler());
+                                .addLast(new ClientTransportHandler(sessionLayerCallbacker));
                     }
                 });
     }
@@ -55,7 +57,7 @@ public class ClientTransporter implements Transporter {
     }
 
     @Override
-    public void write(SessionLayerMsg msg) {
+    public void send(SessionLayerMsg msg, Channel channel) {
         this.channel.writeAndFlush(msg);
     }
 

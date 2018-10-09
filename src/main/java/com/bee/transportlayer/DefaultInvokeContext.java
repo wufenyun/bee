@@ -1,8 +1,8 @@
-package com.bee;
+package com.bee.transportlayer;
 
 import io.netty.channel.Channel;
 
-public class DefaultInvokeContext implements InvokeContext{
+public class DefaultInvokeContext implements InvokeContext {
 
     private Channel channel;
     private Class applicationLayerResultClass;

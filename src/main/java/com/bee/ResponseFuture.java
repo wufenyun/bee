@@ -1,10 +1,11 @@
 package com.bee;
 
+import com.bee.sessionlayer.SessionLayerMsg;
+
 public interface ResponseFuture {
 
-    SessionLayerMsg get();
+    ApplicationLayerMsg get();
 
-    SessionLayerMsg get(long timeoutMills);
-
+    ApplicationLayerMsg get(long timeoutMills);
 
 }

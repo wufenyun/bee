@@ -2,7 +2,7 @@ package com.bee.serialize;
 
 public interface Serializer {
 
-    <T> byte[] encode(T object);
+    <T> byte[] serialize(T object);
 
-    <T> T decode(byte[] bytes);
+    <T> T deserialize(byte[] bytes);
 }

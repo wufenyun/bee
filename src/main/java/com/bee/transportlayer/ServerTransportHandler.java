@@ -1,16 +1,18 @@
-package com.bee;
+package com.bee.transportlayer;
 
 import com.alibaba.fastjson.JSON;
-import com.bee.sessionlayer.Adapter;
+import com.bee.sessionlayer.SessionLayerCallbacker;
+import com.bee.sessionlayer.SessionLayerMsg;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
-import java.util.Map;
-
 public class ServerTransportHandler extends ChannelInboundHandlerAdapter {
 
-    private Map<String,Invoker> service;
-    private TransptortLayerMsgProccessor transptortLayerMsgProccessor;
+    private SessionLayerCallbacker sessionLayerCallbacker;
+
+    public ServerTransportHandler(SessionLayerCallbacker sessionLayerCallbacker) {
+        this.sessionLayerCallbacker = sessionLayerCallbacker;
+    }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
@@ -20,8 +22,7 @@ public class ServerTransportHandler extends ChannelInboundHandlerAdapter {
         DefaultInvokeContext invokeContext = new DefaultInvokeContext();
         invokeContext.setChannel(ctx.channel());
         //交由应用层处理
-        Adapter.convertToApProccess((SessionLayerMsg)msg,invokeContext);
-        //mockProccess(invokeContext,(TransportLayerMsg)msg);
+        sessionLayerCallbacker.callback((SessionLayerMsg)msg,invokeContext);
     }
 
 }

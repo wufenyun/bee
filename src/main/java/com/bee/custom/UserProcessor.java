@@ -2,7 +2,7 @@ package com.bee.custom;
 
 import com.bee.ApplicationLayerMsg;
 
-public interface UserProcessor<T> {
+public interface UserProcessor {
 
-    void process(ApplicationLayerMsg msg);
+    Object process(ApplicationLayerMsg msg);
 }

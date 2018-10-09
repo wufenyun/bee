@@ -1,4 +1,4 @@
-package com.bee.util;
+package com.bee.transport;
 
 
 import com.alibaba.fastjson.JSON;

@@ -1,4 +1,8 @@
-package com.bee;
+package com.bee.transportlayer;
+
+import com.bee.sessionlayer.SessionLayerMsg;
+import io.netty.channel.Channel;
+import io.netty.channel.socket.nio.NioSocketChannel;
 
 /**
  * 传输层操作：
@@ -14,6 +18,6 @@ public interface Transporter {
 
     void stop();
 
-    void write(SessionLayerMsg msg);
+    void send(SessionLayerMsg msg, Channel channel);
 
 }

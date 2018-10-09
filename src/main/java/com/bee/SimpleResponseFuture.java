@@ -1,5 +1,7 @@
 package com.bee;
 
+import com.bee.sessionlayer.SessionLayerMsg;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Condition;
@@ -11,14 +13,14 @@ public class SimpleResponseFuture implements ResponseFuture {
     private long requestId;
     private ReentrantLock lock = new ReentrantLock();
     private Condition done = lock.newCondition();
-    private SessionLayerMsg response;
+    private ApplicationLayerMsg response;
 
     public SimpleResponseFuture(long requestId) {
         FUTURE_MAP.put(requestId,this);
     }
 
     @Override
-    public SessionLayerMsg get() {
+    public ApplicationLayerMsg get() {
         if(null == response){
             lock.lock();
             try {
@@ -35,7 +37,7 @@ public class SimpleResponseFuture implements ResponseFuture {
     }
 
     @Override
-    public SessionLayerMsg get(long timeoutMills) {
+    public ApplicationLayerMsg get(long timeoutMills) {
         return null;
     }
 
@@ -49,7 +51,7 @@ public class SimpleResponseFuture implements ResponseFuture {
         try {
             long id = sessionLayerMsg.getRequestId();
             if(requestId == id) {
-                response = sessionLayerMsg;
+                response = sessionLayerMsg.getMsg();
                 done.signal();
             }
         } finally {

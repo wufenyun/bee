@@ -1,6 +1,8 @@
 package com.bee;
 
-public class ApplicationLayerMsg {
+import java.io.Serializable;
+
+public class ApplicationLayerMsg implements Serializable {
 
     private String interfaceName;
     private Object data;
